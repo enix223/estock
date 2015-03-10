@@ -25,8 +25,8 @@ class Mysql():
             self.cur = self.conn.cursor(mysql.cursors.DictCursor)
             logging.info("Created a new connection to the database.")
         except mysql.Error, e:
-            logging.exception("Error %d: %s" % (e.args[0], e.args[1]))
-            sys.exit(1)  
+            logging.exception(e)
+            #sys.exit(1)  
         
     def executeQuery(self, query):
         logging.info("Executing query -- %s ", query)
@@ -35,8 +35,8 @@ class Mysql():
             numrows = int(self.cur.rowcount)
             return numrows
         except mysql.Error, e:
-            logging.exception("Error %d: %s" % (e.args[0], e.args[1]))
-            sys.exit(1)
+            logging.exception(e)
+            #sys.exit(1)
     
     def fetchOne(self):
         return self.cur.fetchone()
@@ -71,5 +71,5 @@ class Mysql():
             numrows = int(self.cur.rowcount)
             return numrows
         except mysql.Error, e:
-            logging.exception("Error %d: %s" % (e.args[0], e.args[1]))
-            sys.exit(1)
+            logging.exception(e)
+            #sys.exit(1)

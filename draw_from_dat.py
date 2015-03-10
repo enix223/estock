@@ -17,15 +17,16 @@ def draw(filePath):
     while True:
         data = f.read(32)
         if data:
+            s.kv['code'] = code
             s.kv['date'] = unpack('L', data[0:4])[0]
             s.kv['open'] = unpack('L', data[4:8])[0]/100.0
             s.kv['high'] = unpack('L', data[8:12])[0]/100.0
             s.kv['low'] = unpack('L', data[12:16])[0]/100.0
             s.kv['close'] = unpack('L', data[16:20])[0]/100.0
             s.kv['deal'] = unpack('f', data[20:24])[0]
-            s.kv['vol'] = unpack('L', data[24:28])[0]
+            s.kv['amount'] = unpack('L', data[24:28])[0]
             #s.kv['reverse'] = unpack('L', data[28:32])[0]
-            mdb.insertSQL('stock_002402', s.kv)
+            mdb.insertSQL('estock_hist', s.kv)
             #print(s)
         else:
             break
