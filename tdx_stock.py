@@ -8,13 +8,14 @@ import shutil
 from zipfile import ZipFile
 from bs4 import BeautifulSoup
 from struct import unpack
+from base import Base
 
 # User module
 from settings import config
 from utils.single_thread import SingleThread
 from utils.db_import import MySQLDB
 
-class TdxStockWorker(object):
+class TdxStockWorker(Base):
 
     __SHENZHEN__ = 'sz'
     __SHANGHAI__ = 'sh'
@@ -23,6 +24,7 @@ class TdxStockWorker(object):
     
     def __init__(self):
         self.mysql_db = MySQLDB(config['DB_HOST'], config['DB_DATABASE'], config['DB_USER'], config['DB_PASSWORD'])
+        super(TdxStockWorker, self).__init__()
 
     '''
     Clear tmp dir
@@ -78,9 +80,8 @@ class TdxStockWorker(object):
         # Close auto commit mode
         self.mysql_db.execute('SET autocommit=0')
 
-        for directory in dirs:
-                if(config['DEBUG']):
-                    print('Processing directory: {d}'.format(d=directory))                
+        for directory in dirs:                
+                self.logger.debug(('Processing directory: {d}'.format(d=directory)))
 
                 for file_name in os.listdir(directory):
 
@@ -89,8 +90,7 @@ class TdxStockWorker(object):
                         not os.path.isfile(os.path.join(directory, file_name))):
                         continue
 
-                    if(config['DEBUG']):
-                        print('Processing: {code}...'.format(code=file_name))                    
+                    self.logger.debug('Processing: {code}...'.format(code=file_name))                    
 
                     market_table = file_name[:2]
                     code = file_name[2:8]

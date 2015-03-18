@@ -4,9 +4,12 @@ config = {
 	'DEBUG': True,
 
     # Logging setting
-    'LOG_LEVEL':     logging.DEBUG,
-    'LOG_FORMAT':    '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-    'LOG_FILENAME':  'estock.log',
+    'LOG_LEVEL':       logging.DEBUG,
+    'LOG_FORMAT':      '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+    'LOG_FILENAME':    'estock.log',
+    'LOG_FILEMODE':    'a',
+    'LOG_MAXBYTES':    10*1024*1024,
+    'LOG_BACKUPCOUNT': 7,
 
 	# DB Setting
 	'DB_HOST': '127.0.0.1',

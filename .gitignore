@@ -1,6 +1,7 @@
 /data
-/*.log
-/*.pyc
-/utils/*.pyc
-/*.csv
+*.pyc
+*.csv
 /tmp
+
+*.log.*
+*.log
