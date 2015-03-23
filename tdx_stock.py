@@ -100,14 +100,14 @@ class TdxStockWorker(Base):
                             if data:
                             	kv = {}
                                 kv['code'] = code
-                                kv['date'] = unpack('L', data[0:4])[0]
-                                kv['open'] = unpack('L', data[4:8])[0]/100.0
-                                kv['high'] = unpack('L', data[8:12])[0]/100.0
-                                kv['low'] = unpack('L', data[12:16])[0]/100.0
-                                kv['close'] = unpack('L', data[16:20])[0]/100.0
-                                kv['deal'] = unpack('f', data[20:24])[0]
-                                kv['amount'] = unpack('L', data[24:28])[0]
-                                #kv['reverse'] = unpack('L', data[28:32])[0]
+                                kv['date'] = unpack('=L', data[0:4])[0]
+                                kv['open'] = unpack('=L', data[4:8])[0]/100.0
+                                kv['high'] = unpack('=L', data[8:12])[0]/100.0
+                                kv['low'] = unpack('=L', data[12:16])[0]/100.0
+                                kv['close'] = unpack('=L', data[16:20])[0]/100.0
+                                kv['deal'] = unpack('=f', data[20:24])[0]
+                                kv['amount'] = unpack('=L', data[24:28])[0]
+                                #kv['reverse'] = unpack('=L', data[28:32])[0]
 
                                 self.mysql_db.insertSQLIgnore(config[market_table], kv)                        
                             else:
