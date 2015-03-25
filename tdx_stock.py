@@ -35,8 +35,8 @@ class TdxStockWorker(Base):
         os.mkdir(self.__TMP_DIR__)
 
         # Clear table
-        self.mysql_db.execute('truncate table {t}'.format(t=config[__SHANGHAI__]))
-        self.mysql_db.execute('truncate table {t}'.format(t=config[__SHENZHEN__]))
+        self.mysql_db.execute('truncate table {t}'.format(t=config[self.__SHANGHAI__]))
+        self.mysql_db.execute('truncate table {t}'.format(t=config[self.__SHENZHEN__]))
 
     '''
     Extract the daily data from TDX uri, and load them to database
