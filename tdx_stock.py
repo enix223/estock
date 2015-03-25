@@ -30,8 +30,13 @@ class TdxStockWorker(Base):
     Clear tmp dir
     '''
     def house_keeping(self):    
+        # Clear temp folder
         shutil.rmtree(self.__TMP_DIR__, ignore_errors=True)
         os.mkdir(self.__TMP_DIR__)
+
+        # Clear table
+        self.mysql_db.execute('truncate table {t}'.format(t=config[__SHANGHAI__]))
+        self.mysql_db.execute('truncate table {t}'.format(t=config[__SHENZHEN__]))
 
     '''
     Extract the daily data from TDX uri, and load them to database
