@@ -114,7 +114,7 @@ class TdxStockWorker(Base):
                                 kv['amount'] = unpack('=L', data[24:28])[0]
                                 #kv['reverse'] = unpack('=L', data[28:32])[0]
 
-                                self.mysql_db.insertSQLIgnore(config[market_table], kv)                        
+                                self.mysql_db.insertSQL(config[market_table], kv)                        
                             else:
                                 break
                         self.mysql_db.commit()

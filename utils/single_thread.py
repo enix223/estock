@@ -3,7 +3,9 @@ import time
 import threading
 import thread
 
-class SingleThread(object):
+from base import Base
+
+class SingleThread(Base):
         
     def __init__(self, func, func_args=(), encoding='gbk', failed_delay=2, max_retry=10):
         self.encoding = encoding        
@@ -16,15 +18,22 @@ class SingleThread(object):
         self.func_args = func_args
         self.thread = threading.Thread(target=self._func)
 
+        super(SingleThread, self).__init__()
+
     def run(self):
+
+        self.logger.info("Thread start...")
+
         self.thread.start()
         while(True):            
             # Successful finished
             if(self.finished and not self.thread.is_alive()):
+                self.logger.info("Thread finished...")
                 return
 
             # Max tries reach, failed the task
             if(not self.finished and self.retry_times >= self.max_retry):
+                self.logger.info("Thread abnormal end...")
                 raise Exception('Max tries reach. Task failed.')            
             
             # Retry when max retry not reach
