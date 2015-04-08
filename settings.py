@@ -1,4 +1,10 @@
 import logging
+import sqlite3
+
+conn = sqlite3.connect('settings.s3db')
+rs = conn.cursor().execute('select key, value from config')
+d = rs.fetchall()
+conn.close()
 
 config = {
 	'DEBUG': True,
@@ -38,4 +44,15 @@ config = {
     # Table dict
     'sz': 'estock_hist_sz',
     'sh': 'estock_hist_sh',
+
+    # Eastmoney -------------->
+    #'EAST_DATA_URL': 'http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=NS&sty=NSST&st=12&sr=-1&p={page}&ps=50&stat=1&rt=47616849',
+    #'EAST_END_PAGE': 28,
+    #'EAST_CSV_PATH': './data/newstock.csv',
 }
+
+for key, value in d:    
+    config[key.encode('ascii')] = value.encode('ascii')
+
+if __name__ == '__main__':
+    print config
