@@ -7,4 +7,5 @@
 *.log
 
 *.Rhistory
+*.RData
 *.s3db

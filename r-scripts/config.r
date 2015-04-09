@@ -12,3 +12,19 @@ get_config <- function(key){
   
   return(val$value)
 }
+
+result.newstock.save <- function(df){
+  driver <- dbDriver("SQLite")
+  con    <- dbConnect(driver, dbname = 'estock.s3db')
+  dbBegin(con) 
+  dbGetPreparedQuery(con, "insert into new_stock_odd_success_rate(
+                     'plate'     , 
+                     'stock_code', 
+                     'apply_code', 
+                     'stock_name', 
+                     'price'     , 
+                     'apply_date', 
+                     'odd_success_rate') 
+                     values(?,?,?,?,?,?,?)", df)
+  dbCommit(con)
+}

@@ -1,7 +1,7 @@
 import logging
 import sqlite3
 
-conn = sqlite3.connect('settings.s3db')
+conn = sqlite3.connect('estock.s3db')
 rs = conn.cursor().execute('select key, value from config')
 d = rs.fetchall()
 conn.close()
