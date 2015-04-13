@@ -1,0 +1,53 @@
+New stock combination
+---
+
+Parameters
+===
+SH Quota: n1 (unit 1000)
+SZ Quota: n2 (unit 1000)
+On hand cash: n3 RMB
+
++-----------+--------------------------+----------------------------+
+|Stock code | price          |  Rate   | Apply quantity (unit 1000) |
++-----------+--------------------------+----------------------------+
+|600959     |            5.47|    2.216|                          X1|
+|603567     |           23.60|    1.142|                          X2|
+|603883     |           16.41|    0.901|                          X3|
+|...        |             ...|      ...|                         ...|
++-----------+--------------------------+----------------------------+
+| Target:   | Maxmize the rate                                      |
++-----------+-------------------------------------------------------+
+
+Question:
+===
+
+Which combination (find out the value of series X[k]) will be the best strategy to maxmize the odd success rate, with given specified cash.
+
+Solution:
+===
+
+I. Calculate the approximate rate for each stock
+=====
+1. Use linear regession to calculate the approximate rate
+2. 
+
+
+II. Find out the best combination
+=====
+P : Price series for each stock
+R : Approximate rate for each stock
+X : Apply quantity for each stock
+C : Total cash on hand
+S : Shanghai quota
+Z : Shenzhen quota
+
+Target: Solve X, and X must fulfill:
+1. C >= sum(P[k] * X[k])
+2. Maxmize the value of sum(X[K]*R[k]) 
+3. X is an integer, and for each of k, X[k] * 1000 <= S, X[k] * 500 <= Z
+
+
+
+
+
+

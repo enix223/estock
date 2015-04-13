@@ -1,6 +1,7 @@
 body {
   padding-top: 40px;
   padding-bottom: 40px;    
+  font-family: arial, 'Microsoft Yahei', 'Hiragino Sans GB', sans-serif;
 }
 
 .login-container{
@@ -67,6 +68,16 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
+}
+
+
+/*
+ * Banner
+ */
+
+.es-nav {
+  background-color: #fdfdfd; 
+  border: 1px solid #eee;
 }
 
 /*
@@ -148,5 +159,63 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+/* App list */
+.es-app {
+  margin:0 -10px 20px;
+  overflow:hidden
+}
+
+.es-app-list {
+  padding-left:0;
+  list-style:none
+}
+
+.es-app li {
+  float:left;
+  width:25%;
+  height:100px;
+  padding:10px;
+  font-size:10px;
+  line-height:1.4;
+  text-align:center;
+  background-color:#f9f9f9;
+  border:1px solid #fff
+}
+
+.es-app .glyphicon {
+  margin-top:5px;
+  margin-bottom:10px;
+  font-size:24px
+}
+
+.es-app .glyphicon-class {
+  display:block;
+  text-align:center;
+  word-wrap:break-word
+}
+
+.es-app li a{
+  color:#000;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.es-app li a:hover{
+  color:#fff;  
+  text-decoration: none;
+  background-color:#563d7c;
+}
+
+.es-app li:hover{
+  color:#fff;
+  background-color:#563d7c;
+}
+
+@media (min-width:768px){
+  .es-app{margin-right:0;margin-left:0}
+  .es-app li{width:12.5%;font-size:12px}
 }
 

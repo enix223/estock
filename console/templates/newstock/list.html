@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h3 class="text-muted">可申购的新股</h3>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="nav nav-tabs">
+					<li><a href="{% url 'newstock-list' %}">全部</a></li>
+					<li><a href="{% url 'newstock-list' %}">上海主板</a></li>
+					<li><a href="{% url 'newstock-list' %}">深圳主板</a></li>
+					<li><a href="{% url 'newstock-list' %}">中小板</a></li>
+					<li><a href="{% url 'newstock-list' %}">创业板</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>	
+							<th>申购代码</th>
+							<th>股票名称</th>
+							<th>申购价格</th>
+							<th>预测中签率</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for stock in stocks %}
+						<tr>
+							<td>{{ stock.stock_code }}</td>
+							<td>{{ stock.stock_name }}</td>
+							<td>{{ stock.price }}</td>
+							<td>{{ stock.odd_success_rate }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

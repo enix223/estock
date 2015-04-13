@@ -15,8 +15,8 @@ csv.path <- get_config('EAST_CSV_PATH')
 colClasses <- c(rep('character',6), rep('numeric', 5), rep('character', 3), rep('numeric', 5), rep('character', 1), rep('numeric', 6), rep('character', 2), rep('numeric', 10), rep('character', 1), rep('numeric', 3), rep('character', 1))
 data <- read.csv(file=csv.path, header=F, sep=',', quote='', colClasses=colClasses, fileEncoding='utf-8')
 
-data.hist <- sqldf("select * from data t where t.V16 is not null")
-data.test <- sqldf("select * from data t where t.V16 is null")
+data.hist <- sqldf("select * from data t where t.V16 is not null", drv="SQLite")
+data.test <- sqldf("select * from data t where t.V16 is null", drv="SQLite")
 
 # Build train set, and test set
 train.index <- sample(nrow(data.hist), size=nrow(data.hist)*0.8)
@@ -40,10 +40,16 @@ data.test$V11     <- data.test$V35
 data.test$V81     <- scale(data.test$V8)
 data.test$predict <- predict(myfit, newdata=data.test)
 
-#print(data.test[order(data.test$V20, -data.test$predict), c('V20', 'V5', 'V4', 'V11', 'V12', 'predict')])
-
 # Save the result to db
 result <- data.test[order(data.test$V20, -data.test$predict), c('V20', 'V5', 'V6', 'V4', 'V11', 'V12', 'predict')]
+col.names = c('plate'     , 
+              'stock_code', 
+              'apply_code', 
+              'stock_name', 
+              'price'     , 
+              'apply_date', 
+              'odd_success_rate')
+colnames(result) <- col.names
 print(result)
 result.newstock.save(result)
 

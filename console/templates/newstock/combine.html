@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">			
+			<div class="col-sm-12">
+				<h3 class="text-muted">新股投资组合计算器</h3>	
+				<p class="text-primary">根据可申购额度和可用现金，计算打新最佳组合，达到中签率最大化。</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<form action="{% url 'newstock-combine' %}" method='POST'>
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="sh-quota">上证可申购额度</label>
+						<input class="form-control" id="sh-quota" name="shquota" type="text" />
+					</div>
+					<div class="form-group">
+						<label for="sz-quota">深证可申购额度</label>
+						<input class="form-control"  id="sz-quota" name="szquota" type="text" />
+					</div>
+					<div class="form-group">
+						<label for="cash">可用于申购的金额</label>
+						<div class="input-group">
+							<div class="input-group-addon">RMB.</div>
+							<input class="form-control"  id="cash" name="cash" type="text" />
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-success btn-lg">立刻计算</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

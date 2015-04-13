@@ -1,42 +1,38 @@
-{% load staticfiles %}
+{% extends "base.html" %}
 
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="enix223@163.com" />
-	<title>e@Stock | Data Driven Investment</title>		
-	<!-- Bootstrap CSS -->
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />	
-	<!-- Cloudesk CSS -->
-	<link href="{% static 'css/estock.css' %}?v=1.1" rel="stylesheet" />	
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-</head>
-
-<body>
-	<div class="container-fluid">
+{% block content %}
+	<div class="container">
 		<div class="row">
-			<!-- Side bar -->
-			<div class="col-sm-3 col-md-2 sidebar">
-				<ul class="nav nav-sidebar">
-					<li>
-						<a href="#">Job Scheduler</a>
-					</li>
-					<li>
-						<a href="#">Investment Chance</a>
-					</li>
-					<li>
-						<a href="#">News</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<p>Hello, {{user.first_name}}</p>
+			<div class="col-sm-12">
+				<div class="es-app">
+					<ul class="es-app-list">
+						<li>
+							<a href="{% url 'newstock-combine' %}">
+								<span class="glyphicon glyphicon-gift"></span>
+								<span class="glyphicon-class">New Stock</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-flag"></span>
+								<span class="glyphicon-class">Jobs Runner</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								<span class="glyphicon-class">Opportunity</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-text-background"></span>
+								<span class="glyphicon-class">News</span>
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
-</body>	
-
-</html>
+{% endblock %}

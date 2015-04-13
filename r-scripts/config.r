@@ -1,8 +1,9 @@
-library('RSQLite')
+require('RMySQL')
+require('RSQLite')
 
 get_config <- function(key){
   driver <- dbDriver("SQLite")
-  con    <- dbConnect(driver, dbname = 'settings.s3db')
+  con    <- dbConnect(driver, dbname = 'estock.s3db')
   rs     <- dbSendQuery(con, paste("select key, value from config where key='", key, "'", sep=""))
   val    <- fetch(rs, n = 1)
   
@@ -13,18 +14,19 @@ get_config <- function(key){
   return(val$value)
 }
 
+getConnection <- function(){  
+  con <- dbConnect(MySQL(), 
+                   host     = get_config('DB_HOST'),
+                   dbname   = get_config('DB_DATABASE'), 
+                   username = get_config('DB_USER'), 
+                   password = get_config('DB_PASSWORD'))
+}
+
 result.newstock.save <- function(df){
-  driver <- dbDriver("SQLite")
-  con    <- dbConnect(driver, dbname = 'estock.s3db')
+  con    <- getConnection()
   dbBegin(con) 
-  dbGetPreparedQuery(con, "insert into new_stock_odd_success_rate(
-                     'plate'     , 
-                     'stock_code', 
-                     'apply_code', 
-                     'stock_name', 
-                     'price'     , 
-                     'apply_date', 
-                     'odd_success_rate') 
-                     values(?,?,?,?,?,?,?)", df)
+  dbSendQuery(con,'SET NAMES utf8')
+  dbWriteTable(con, 'console_newstockrate', df, append=T, row.names=NA)  
   dbCommit(con)
+  dbDisconnect(con)
 }

@@ -8,5 +8,9 @@ urlpatterns = patterns('',
     # Job
     url(r'^jobs/list'   , 'console.views_jobs.job_list'   , name='job-list'   ),
     url(r'^jobs/trigger', 'console.views_jobs.job_trigger', name='job-trigger'),
-    url(r'^jobs/end'    , 'console.views_jobs.job_end'    , name='job-list'   ),
+    url(r'^jobs/end'    , 'console.views_jobs.job_force_end'    , name='job-list'   ),
+
+    # New stock app
+    url(r'^newstock/combine', 'console.views_newstock.combine', name='newstock-combine'),
+    url(r'^newstock/list', 'console.views_newstock.list', name='newstock-list'),
 )
