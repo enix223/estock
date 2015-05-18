@@ -2,7 +2,7 @@ import sqlite3
 import os
 import sys
 
-_ESTOCK_DB = '../estock.s3db'
+_ESTOCK_DB = 'estock.s3db'
 
 if os.path.isfile(_ESTOCK_DB):
     con = sqlite3.connect(_ESTOCK_DB)

@@ -5,7 +5,7 @@ import os
 import sys
 
 # User defined lib
-from settings import config
+from console.tdx.settings import config
 
 class Base(object):	
 

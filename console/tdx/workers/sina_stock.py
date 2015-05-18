@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 
 # User module
 from settings import config
-from utils.single_thread import SingleThread
-from utils.db_import import MySQLDB
+from base.single_thread import SingleThread
+from db.db_import import MySQLDB
 
 class SinaStockWorker(object):
 

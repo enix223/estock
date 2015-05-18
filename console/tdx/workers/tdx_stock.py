@@ -8,19 +8,19 @@ import shutil
 from zipfile import ZipFile
 from bs4 import BeautifulSoup
 from struct import unpack
-from base import Base
 
 # User module
 from settings import config
-from utils.single_thread import SingleThread
-from utils.db_import import MySQLDB
+from base.base import Base
+from base.single_thread import SingleThread
+from db.db_import import MySQLDB
 
 class TdxStockWorker(Base):
 
     __SHENZHEN__ = 'sz'
     __SHANGHAI__ = 'sh'
     __BUFFER_SIZE__ = 1024
-    __TMP_DIR__ = 'tmp'
+    __TMP_DIR__ = 'data/full'
     
     def __init__(self):
         self.mysql_db = MySQLDB(config['DB_HOST'], config['DB_DATABASE'], config['DB_USER'], config['DB_PASSWORD'])
@@ -37,6 +37,32 @@ class TdxStockWorker(Base):
         # Clear table
         self.mysql_db.execute('truncate table {t}'.format(t=config[self.__SHANGHAI__]))
         self.mysql_db.execute('truncate table {t}'.format(t=config[self.__SHENZHEN__]))
+
+    '''
+    Download the data from TDX
+    '''
+    def download(self):
+        for uri in config['tdx_daily_uri']:
+            r = urllib2.Request(uri)
+            d = urllib2.urlopen(r)
+            stamp = long(time.time()*1000)
+            filename = 'tmp_{stamp}'.format(stamp=stamp)
+            tmpfile = '{tmpdir}/{filename}.zip'.format(tmpdir=self.__TMP_DIR__, filename=filename)
+
+            # Download the zip file
+            with(open(tmpfile, 'wb')) as z:
+                data = d.read(self.__BUFFER_SIZE__)                
+                while(data):            
+                    z.write(data)
+                    data = d.read(self.__BUFFER_SIZE__)
+
+            # Open and unzip the file
+            with(ZipFile(tmpfile, 'r')) as tmpzip:
+                tmpdir = os.path.join(self.__TMP_DIR__)
+                tmpzip.extractall(tmpdir)
+
+            # Clear temp zip file
+            shutil.rmtree(tmpfile, ignore_errors=True) 
 
     '''
     Extract the daily data from TDX uri, and load them to database
@@ -70,13 +96,21 @@ class TdxStockWorker(Base):
     Extract the history data from binary file and load it to database
     @param hist : flag to indicate history data or not
     '''
-    def run(self, hist):
-        if(hist): # Extract history data
+    def run(self, args):
+        if args == 'download':
+            runner = SingleThread(self.download, max_retry=1)
+            runner.run()
+        elif args == 'hist':
+            # Extract history data
             runner = SingleThread(self.get, config['tdx_hist_dirs'], max_retry=1)
             runner.run()
-        else: # Extract daily data
+        elif args == 'daily':
+            # Extract daily data
             runner = SingleThread(self.daily, max_retry=1)
             runner.run()
+        else:
+            raise ValueError('Invalid action command. should be [download | hist | daily].')
+            return
 
     def get(self, dirs):   
         # Connect to the DB
@@ -123,5 +157,12 @@ class TdxStockWorker(Base):
 
 
 if __name__ == '__main__':
+    import sys
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--action')
+    args = parser.parse_args()
+    
     worker = TdxStockWorker()
-    worker.run(hist=False)
+    worker.run(args.action)

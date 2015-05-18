@@ -6,8 +6,8 @@ import csv
 
 # user define lib
 from settings import config
-from utils.single_thread import SingleThread
-from base import Base
+from base.single_thread import SingleThread
+from base.base import Base
 
 class EastmoneyWorker(Base):
 
